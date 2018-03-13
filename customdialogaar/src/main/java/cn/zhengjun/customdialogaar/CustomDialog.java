@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * OKLine(HangZhou) co.,Ltd.
@@ -35,6 +41,12 @@ public class CustomDialog extends Dialog {
         
     }
 
+
+    @Target({ElementType.PARAMETER,ElementType.FIELD})
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({MODE_UNIVERSAL,MODE_BLACK_BLUE,MODE_EDIT_TEXT,MODE_INVALID_NETWORK,MODE_OKLINE2})
+    public  @interface CSStyle {}
+
     private final Context context;
     private final String title;
     private final String message;
@@ -44,16 +56,16 @@ public class CustomDialog extends Dialog {
     private final String submessage;
     private final int mode;
 
-    public CustomDialog(Context context, String title, String message, String submessage, String negativeButtonText, String positiveButtonText, DialogClickListener listener, int mode) {
+    public CustomDialog(Context context, CustomDialogConfig customDialogConfig) {
         super(context, R.style.customdialog);
         this.context = context;
-        this.title = title;
-        this.message = message;
-        this.submessage = submessage;
-        this.negativeButtonText = negativeButtonText;
-        this.positiveButtonText = positiveButtonText;
-        this.listener = listener;
-        this.mode = mode;
+        this.title = customDialogConfig.getTitle();
+        this.message = customDialogConfig.getMessage();
+        this.submessage = customDialogConfig.getSubmessage();
+        this.negativeButtonText = customDialogConfig.getNegativeButtonText();
+        this.positiveButtonText = customDialogConfig.getPositiveButtonText();
+        this.listener = customDialogConfig.getListener();
+        this.mode = customDialogConfig.getMode();
     }
 
     @Override
