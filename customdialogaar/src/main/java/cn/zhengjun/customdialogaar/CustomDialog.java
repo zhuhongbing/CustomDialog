@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,8 +57,23 @@ public class CustomDialog extends Dialog {
     private final String submessage;
     private final int mode;
 
+    public CustomDialog(Context context, String title, String message, String submessage, String negativeButtonText, String positiveButtonText, DialogClickListener listener, @CSStyle int mode) {
+        super(context, R.style.customdialog);
+        this.context = context;
+        this.title = title;
+        this.message = message;
+        this.submessage = submessage;
+        this.negativeButtonText = negativeButtonText;
+        this.positiveButtonText = positiveButtonText;
+        this.listener = listener;
+        this.mode = mode;
+    }
+
+    private static final String TAG = "CustomDialog";
+
     public CustomDialog(Context context, CustomDialogConfig customDialogConfig) {
         super(context, R.style.customdialog);
+        Log.d(TAG, "CustomDialog() called with: context = [" + context + "], customDialogConfig = [" + customDialogConfig + "]");
         this.context = context;
         this.title = customDialogConfig.getTitle();
         this.message = customDialogConfig.getMessage();
